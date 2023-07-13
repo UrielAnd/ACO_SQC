@@ -18,14 +18,10 @@ def Gera_Script(lista):
         
         for index in range(len(lista)):
 
-                Imagem = (Image.open("imgs/Loja_Virtual.png"))
-
-                # Converter a imagem em bytes
-                imagem_bytes = Imagem.tobytes()
-
-                # Codificar a imagem em Base64
-                imagem_base64 = base64.b64encode(imagem_bytes).decode()
-
+                with open(f"imgs/{lista[index].Imagem}", "rb") as Imagem:
+                        # Codificar a imagem em Base64
+                        Imagem = base64.b64encode(Imagem.read())
+                        Imagem64 = Imagem.decode("utf-8")
                 Layout_Value = 0
                 if lista[index].Tipo_de_layout == "Cartão com imagem à esquerda - Título, subtítulo e CTA à direita":
                         Layout_Value = 319
@@ -35,8 +31,8 @@ def Gera_Script(lista):
                 lista[index].print()
                 
                 #print("Teste")
-                arquivo = open(f"Scripts/Script_{int(lista[index].num)}-{Moment}.txt", "w")
-                arquivo.write("""declare @str varchar(max) = %s
+                with open(f"Scripts/Script_{int(lista[index].num)}-{Moment}.txt", "w") as arquivo:
+                        arquivo.write("""declare @str varchar(max) = %s
 declare @img varbinary(max) = (SELECT cast('' as xml).value('xs:base64Binary(sql:variable( "@str"))', 'varbinary(max)'))
 INSERT INTO MENU_ACO_MBK (
 NUM_ACA,
@@ -47,14 +43,15 @@ IDT_PRX_PAS,
 CTD_IMG_ACA,
 NOM_RCU_APA_MNU)
 VALUES (
-%d, 
-7, 
-%d, 
-0, 
-0, 
+%d,
+7,
+%d,
+0,
+0,
 @img,
-'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s"},"Navegacao":{"Metodo":"Link","Link":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","TituloPopUp":"","CodMensagemAlerta":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (imagem_base64, lista[index].num, Layout_Value, lista[index].Titulo, Layout_Value, lista[index].num, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Final, lista[index].Titulo_Cor, lista[index].Subtitulo_Cor, lista[index].CTA_Cor, lista[index].CTA_Cor_Fundo, lista[index].CTA_Cor_Borda, lista[index].Subtitulo, lista[index].Texto_CTA))
+'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s"},"Navegacao":{"Metodo":"Link","Link":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","TituloPopUp":"","CodMensagemAlerta":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (Imagem64, lista[index].num, Layout_Value, lista[index].Titulo, Layout_Value, lista[index].num, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Final, lista[index].Titulo_Cor, lista[index].Subtitulo_Cor, lista[index].CTA_Cor, lista[index].CTA_Cor_Fundo, lista[index].CTA_Cor_Borda, lista[index].Subtitulo, lista[index].Texto_CTA))
 
+                arquivo.close()
 try:
 
         lista = []
