@@ -34,7 +34,7 @@ Para utilizar o AntiACO, siga as etapas abaixo:
 | Melhorias                    | Descrição                                                     |
 | ---------------------------- | ------------------------------------------------------------- |
 | Interface Gráfica            | Desenvolver uma interface amigável e intuitiva para o programa |
-| Variações de Layouts         | Adicionar suporte para diferentes layouts de planilhas         |
+| Variações de Layouts         | Adicionar suporte para diferentes layouts de cards         |
 
 ## Contribuição
 
