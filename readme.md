@@ -41,7 +41,7 @@ Para instalar o AntiACO, siga as instruções abaixo:
 
 ## Instalação (Usuário)
 
-Para instalar o AntiACO e usufruir de suas funcionalidades, clique no botão a seguir e siga as instruções abaixo:
+Para instalar o AntiACO e usufruir de suas funcionalidades, clique no botão a seguir e siga as instruções abaixo:<br>
 [![Download](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/ReisLucasF/ACO/archive/refs/heads/Download.zip)
 
 
