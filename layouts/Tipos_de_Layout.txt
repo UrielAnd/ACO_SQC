@@ -1,0 +1,12 @@
+Cartão com imagem à esquerda - Título, subtítulo e CTA à direita
+Cartão com imagem à esquerda - Título e CTA à direita
+Cartão com imagem à esquerda - Subtítulo e CTA à direita
+Cartão com imagem à esquerda - Título e subtítulo à direita
+Cartão com imagem à direita - Título, subtítulo e CTA à esquerda
+Cartão com imagem à direita - Título e CTA à esquerda
+Cartão com imagem à direita - Subtítulo e CTA à esquerda
+Cartão com imagem à direita - Título e subtítulo à esquerda
+Cartão sem imagem - Título, subtítulo e CTA
+Cartão sem imagem - Título e CTA
+Cartão sem imagem - Título e subtítulo
+Cartão sem imagem - Subtítulo e CTA
