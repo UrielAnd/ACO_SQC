@@ -1,10 +1,8 @@
 import pandas as pd
 from Excel_file import Excel_file
 from ACOs import ACOs
-from datetime import datetime
 import os
 import base64
-from PIL import Image
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import subprocess
@@ -13,16 +11,13 @@ import subprocess
 excel_path = ""
 image_paths = []
 
-# Variável global para armazenar o valor de Moment
-Moment = None
-
 # Variável global para armazenar se ocorreu algum erro
 has_error = False
 
+
 # Função para gerar o script a partir dos dados da planilha e imagens selecionadas na janela
 def gerar_script_gerado(lista, demanda_num, image_paths):
-    global Moment, has_error
-
+    global has_error
 
     if not os.path.exists("Scripts"):
         os.mkdir("Scripts")
@@ -43,7 +38,7 @@ def gerar_script_gerado(lista, demanda_num, image_paths):
     for index in range(len(lista)):
         # Validar se o nome da imagem coincide com o nome na planilha
         if lista[index].Imagem not in [os.path.basename(image_path) for image_path in image_paths]:
-            divergent_actions.append(lista[index].num)
+            divergent_actions.append(int(lista[index].num))
 
         with open(image_paths[index], "rb") as img_file:
             # Ler a imagem em formato binário e converter para base64
@@ -58,7 +53,7 @@ def gerar_script_gerado(lista, demanda_num, image_paths):
 
         # Verificar se o arquivo de script já existe
         if os.path.exists(script_file_path):
-            updated_actions.append(lista[index].num)
+            updated_actions.append(int(lista[index].num))
 
         with open(script_file_path, "w") as arquivo:
             script = """declare @str varchar(max) = '%s'
@@ -78,12 +73,18 @@ NOM_RCU_APA_MNU)
 0, 
 0, 
 @img, 
-'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s"},"Navegacao":{"Metodo":"Link","Link":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","TituloPopUp":"","CodMensagemAlerta":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (image_base64, lista[index].num, lista[index].Banner, lista[index].Titulo, lista[index].Banner, lista[index].num, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Final, lista[index].Titulo_Cor, lista[index].Subtitulo_Cor, lista[index].CTA_Cor, lista[index].CTA_Cor_Fundo, lista[index].CTA_Cor_Borda, lista[index].Subtitulo, lista[index].Texto_CTA)
+'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s"},"Navegacao":{"Metodo":"Link","Link":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","TituloPopUp":"","CodMensagemAlerta":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (
+                image_base64, lista[index].num, lista[index].Banner, lista[index].Titulo, lista[index].Banner,
+                lista[index].num, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Final, lista[index].Titulo_Cor,
+                lista[index].Subtitulo_Cor, lista[index].CTA_Cor, lista[index].CTA_Cor_Fundo, lista[index].CTA_Cor_Borda,
+                lista[index].Subtitulo, lista[index].Texto_CTA)
 
             arquivo.write(script)
 
     if divergent_actions:
-        status_label.config(text=f"Erro: Ações com nomes de imagem divergentes: {', '.join(map(str, divergent_actions))}", fg="red")
+        divergent_actions = [int(action) for action in divergent_actions]
+        status_label.config(
+            text=f"Erro: Ações com nomes de imagem divergentes: {', '.join(map(str, divergent_actions))}", fg="red")
         return
 
     return len(lista)
@@ -91,7 +92,6 @@ NOM_RCU_APA_MNU)
 
 # Função para gerar o script
 def gerar_script():
-
     if not excel_path:
         status_label.config(text="Erro: Nenhum arquivo Excel selecionado.", fg="red")
         return
@@ -107,9 +107,6 @@ def gerar_script():
     try:
         demand_number = int(demand_number_entry.get())
 
-        # Atualizar o valor de Moment com o datetime atual antes de gerar o script
-        Moment = datetime.now().microsecond
-
         # Criar instância da classe Excel_file com o caminho do arquivo Excel
         file = Excel_file(excel_path)
 
@@ -117,28 +114,36 @@ def gerar_script():
         Arq = pd.read_excel(file.caminho, sheet_name="Planilha1")
         Arq = Arq.drop(0, axis=0)
         Arq.reset_index(drop=True, inplace=True)
-        Arq = Arq.rename(columns={"Unnamed: 4": "Titulo cor", "Unnamed: 6": "Subtitulo cor", "Unnamed: 8": "CTA cor", "Unnamed: 10": "Cor fundo inicial",
-                                "Unnamed: 11": "Cor fundo Final", "CTA": "CTA Cor do fundo", "CTA.1": "CTA Cor da borda", "Fundo": "Imagem" })
+        Arq = Arq.rename(columns={"Unnamed: 4": "Titulo cor", "Unnamed: 6": "Subtitulo cor", "Unnamed: 8": "CTA cor",
+                                  "Unnamed: 10": "Cor fundo inicial",
+                                  "Unnamed: 11": "Cor fundo Final", "CTA": "CTA Cor do fundo",
+                                  "CTA.1": "CTA Cor da borda", "Fundo": "Imagem"})
         Arq.fillna('', inplace=True)
-        
+
         lista = []
 
         for index in range(len(Arq)):
             if pd.isna(Arq["ACO"][index]):
                 continue  # Ignorar o cabeçalho e linhas em branco
             else:
-                ACO = ACOs(Arq["ACO"][index], Arq["Tipo de layout"][index], Arq["Titulo"][index], Arq["Titulo cor"][index], Arq["Subtitulo"][index], Arq["Subtitulo cor"][index], Arq["Texto CTA"][index],
-                            Arq["CTA cor"][index], Arq["Imagem"][index], Arq["Cor fundo inicial"][index], Arq["Cor fundo Final"][index], Arq["CTA Cor do fundo"][index], Arq["CTA Cor da borda"][index])
+                ACO = ACOs(Arq["ACO"][index], Arq["Tipo de layout"][index], Arq["Titulo"][index],
+                           Arq["Titulo cor"][index], Arq["Subtitulo"][index], Arq["Subtitulo cor"][index],
+                           Arq["Texto CTA"][index],
+                           Arq["CTA cor"][index], Arq["Imagem"][index], Arq["Cor fundo inicial"][index],
+                           Arq["Cor fundo Final"][index], Arq["CTA Cor do fundo"][index],
+                           Arq["CTA Cor da borda"][index])
                 lista.append(ACO)
 
         # Verificar se há nomes de imagem divergentes
         divergent_actions = []
         for index in range(len(lista)):
             if lista[index].Imagem not in [os.path.basename(image_path) for image_path in image_paths]:
-                divergent_actions.append(lista[index].num)
+                divergent_actions.append(int(lista[index].num))
 
         if divergent_actions:
-            status_label.config(text=f"Erro: Ações com nomes de imagem divergentes: {', '.join(map(str, divergent_actions))}", fg="red")
+            divergent_actions = [int(action) for action in divergent_actions]
+            status_label.config(
+                text=f"Erro: Ações com nomes de imagem divergentes: {', '.join(map(str, divergent_actions))}", fg="red")
             return
 
         # Número de ações comerciais encontradas na planilha
@@ -177,7 +182,7 @@ def gerar_script():
         os.makedirs(demand_folder, exist_ok=True)
 
         # Caminho do arquivo de script dentro da subpasta da demanda
-        script_file_path = os.path.join(demand_folder, f"Script_{demand_number}-{datetime.now().microsecond}-card.txt")
+        script_file_path = os.path.join(demand_folder, f"Script_{demand_number}-card.txt")
 
         # Salvar o script no arquivo de texto dentro da subpasta da demanda
         with open(script_file_path, "w") as script_file:
@@ -188,11 +193,13 @@ def gerar_script():
 
         status_label.config(text="Script gerado com sucesso.", fg="green")
 
+
 # Função upload do arquivo Excel
 def upload_excel():
     global excel_path
     excel_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx")])
     status_label.config(text="Arquivo Excel selecionado.", fg="black")
+
 
 # Função para fazer o upload de várias imagens
 def upload_images():
