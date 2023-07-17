@@ -73,7 +73,7 @@ NOM_RCU_APA_MNU)
 0, 
 0, 
 @img, 
-'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s"},"Navegacao":{"Metodo":"Link","Link":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","TituloPopUp":"","CodMensagemAlerta":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (
+'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s"},"Navegacao":{"Metodo":"","Link":"","TituloPopUp":"","CodMensagemAlerta":"","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (
                 image_base64, lista[index].num, lista[index].Banner, lista[index].Titulo, lista[index].Banner,
                 lista[index].num, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Final, lista[index].Titulo_Cor,
                 lista[index].Subtitulo_Cor, lista[index].CTA_Cor, lista[index].CTA_Cor_Fundo, lista[index].CTA_Cor_Borda,
@@ -242,8 +242,8 @@ image_button.pack()
 generate_button = tk.Button(root, text="Gerar script(s)", command=gerar_script)
 generate_button.pack()
 
-script_label = tk.Label(root, text="Script(s) gerado(os):")
-script_label.pack()
+#script_label = tk.Label(root, text="Script(s) gerado(os):")
+#script_label.pack()
 
 script_text = tk.Text(root, width=50, height=10)
 script_text.pack()

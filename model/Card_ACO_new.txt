@@ -8,12 +8,12 @@ IDT_RCU_ITF,
 IDT_FUN,
 IDT_PRX_PAS,
 CTD_IMG_ACA,
-NOM_RCU_APA_MNU)
+NOM_RCU_APA_MNU )
  VALUES (
-35427, 
+1111, 
 7, 
 319, 
 0, 
 0, 
 @img, 
-'{"Titulo":"Programa de Indicação Mercantil","Valor":{"ItemCard":{"IdTipoRecurso":319,"ProximoPasso":0,"IdentificadorAcao":35427,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"#86888C","CorFim":"#86888C","CorTitulo":"#FFFFFF","CorSubTitulo":"#FFFFFF","CorTextoCta":"#FFFFFF","CorFundoCta":"#1526FF","CorBordaCta":"#1526FF"},"Complemento":{"Icone":"","SubTitulo":"Indique pessoas para investir e ganhe bonificações especiais! Procure seu gerente e participe.","TextoCta":"Saiba mais"},"Navegacao":{"Metodo":"Link","Link":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","TituloPopUp":"","CodMensagemAlerta":"https://bancomercantil.com.br/Voce/Investimentos/programa-de-indicacao-premiada/Paginas/default.aspx","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')
+'{"Titulo":"titulo teste","Valor":{"ItemCard":{"IdTipoRecurso":319,"ProximoPasso":0,"IdentificadorAcao":1111,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png","CorTexto":"#FFFFFF"},"ImagemFundo":{"Imagem":null,"CorInicio":"#fffff","CorFim":"#fffff","CorTitulo":"#fffff","CorSubTitulo":"#fffff","CorTextoCta":"#fffff","CorFundoCta":"#fffff","CorBordaCta":"#fffff"},"Complemento":{"Icone":"","SubTitulo":"subtitulo teste","TextoCta":"cta teste","TamanhoTitulo":2,"TamanhoSubtitulo":2},"Navegacao":{"Metodo":"","Link":"","TituloPopUp":"","CodMensagemAlerta":"","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')
