@@ -56,6 +56,10 @@ Para utilizar o AntiACO, siga as etapas abaixo:
 2. Para o upload de uma planilha com multiplas ações, cada ação deverá ser especificada em uma linha única da planilha. Ações com o campo ACO contendo mais de um número, ex: "3548, 24587" irão gerar erro.
 3. Os resultados serão salvos em uma pasta com o número da demanda na pasta "Scripts" e assim que gerados, a pasta da respectiva demanda será aberta automaticamente para uma melhor visualização.
 
+<p align="center">
+  <img src="https://github.com/ReisLucasF/ACO/blob/master/imgs/ScreenRecorderProject4.gif?raw=true">
+</p>
+
 ## Contribuição
 
 Contribuições para aprimorar o AntiACO são bem-vindas! Se você tiver sugestões, melhorias ou problemas a relatar, abra uma [issue](https://github.com/ReisLucasF/ACO/issues) neste repositório.
