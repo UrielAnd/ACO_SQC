@@ -1,23 +1,24 @@
+from tkinter import filedialog, messagebox, StringVar
 import pandas as pd
 from Excel_file import Excel_file
 from ACOs import ACOs
 import os
 import base64
-import tkinter as tk
-from tkinter import filedialog, messagebox
+import customtkinter
 import subprocess
+
 
 # Variáveis globais para armazenar o caminho do arquivo Excel e da imagem
 excel_path = ""
 image_paths = []
 
-# Variável global para armazenar se ocorreu algum erro
-has_error = False
+# Variável global para armazenar a mensagem de status
+status_message = None
 
 
-# Função para gerar o script a partir dos dados da planilha e imagens selecionadas na janela
+# Função para gerar o script a partir dos dados da planilha e das imagens selecionadas na janela
 def gerar_script_gerado(lista, demanda_num, image_paths):
-    global has_error
+    global has_error, status_message
 
     if not os.path.exists("Scripts"):
         os.mkdir("Scripts")
@@ -83,25 +84,28 @@ NOM_RCU_APA_MNU)
 
     if divergent_actions:
         divergent_actions = [int(action) for action in divergent_actions]
-        status_label.config(
-            text=f"Erro: Ações com nomes de imagem divergentes: {', '.join(map(str, divergent_actions))}", fg="red")
+        status_message.set(f"Erro: Ações com nomes de imagens divergentes: {', '.join(map(str, divergent_actions))}")
         return
+
+    status_message.set(f"{len(lista)} script(s) gerado(s) com sucesso.")
 
     return len(lista)
 
 
 # Função para gerar o script
 def gerar_script():
+    global excel_path, image_paths, status_message
+
     if not excel_path:
-        status_label.config(text="Erro: Nenhum arquivo Excel selecionado.", fg="red")
+        status_message.set("Erro: Nenhum arquivo Excel selecionado.")
         return
 
     if not image_paths:
-        status_label.config(text="Erro: Nenhuma imagem selecionada.", fg="red")
+        status_message.set("Erro: Nenhuma imagem selecionada.")
         return
 
     if not demand_number_entry.get().isdigit():
-        status_label.config(text="Erro: Número da demanda inválido ou vazio.", fg="red")
+        status_message.set("Erro: Número da demanda inválido ou vazio.")
         return
 
     try:
@@ -142,19 +146,18 @@ def gerar_script():
 
         if divergent_actions:
             divergent_actions = [int(action) for action in divergent_actions]
-            status_label.config(
-                text=f"Erro: Ações com nomes de imagem divergentes: {', '.join(map(str, divergent_actions))}", fg="red")
+            status_message.set(f"Erro: Ações com nomes de imagens divergentes: {', '.join(map(str, divergent_actions))}")
             return
 
         # Número de ações comerciais encontradas na planilha
         num_acos = gerar_script_gerado(lista, demand_number, image_paths)
 
         if num_acos == 0:
-            status_label.config(text="Nenhuma ação comercial encontrada na planilha.", fg="red")
+            status_message.set("Nenhuma ação comercial encontrada na planilha.")
             return
 
         if num_acos > len(image_paths):
-            status_label.config(text="Erro: O número de imagens é menor que o número de ações comerciais.", fg="red")
+            status_message.set("Erro: O número de imagens é menor que o número de ações comerciais.")
             return
 
         # Associar cada imagem à ação correspondente na planilha
@@ -165,14 +168,14 @@ def gerar_script():
             image_name = os.path.basename(ACO.Imagem)
             image_path = next(image_path for image_path in image_paths if image_name == os.path.basename(image_path))
 
-        status_label.config(text=f"{num_acos} script(s) gerado(s) com sucesso.", fg="green")
+        status_message.set(f"{num_acos} script(s) gerado(s) com sucesso.")
 
         # Abrir a pasta da demanda que foi criada
         demand_folder_path = os.path.join("Scripts", f"Demanda_{demand_number}")
         subprocess.Popen(["explorer", demand_folder_path])
 
     except Exception as error:
-        status_label.config(text=f"Erro: {str(error)}", fg="red")
+        status_message.set(f"Erro: {str(error)}")
 
         # Gerar o script com base nos dados da planilha e imagem upados
         script = gerar_script_gerado(lista, demand_number, image_paths)
@@ -191,65 +194,65 @@ def gerar_script():
         # Abrir o arquivo em um programa que interprete .txt
         subprocess.Popen(["notepad.exe", script_file_path])
 
-        status_label.config(text="Script gerado com sucesso.", fg="green")
+        status_message.set("Script gerado com sucesso.")
 
 
 # Função upload do arquivo Excel
 def upload_excel():
-    global excel_path
+    global excel_path, status_message
+
     excel_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx")])
-    status_label.config(text="Arquivo Excel selecionado.", fg="black")
+    status_message.set("Arquivo Excel selecionado.")
 
 
 # Função para fazer o upload de várias imagens
 def upload_images():
-    global image_paths
-    image_paths = filedialog.askopenfilenames(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
+    global image_paths, status_message
+
+    image_paths = filedialog.askopenfilenames(filetypes=[("Image Files", ".png;.jpg;*.jpeg")])
     if image_paths:
-        status_label.config(text=f"{len(image_paths)} imagem(ns) selecionada(s).", fg="black")
+        status_message.set(f"{len(image_paths)} imagem(ns) selecionada(s).")
     else:
-        status_label.config(text="Nenhuma imagem selecionada.", fg="red")
+        status_message.set("Nenhuma imagem selecionada.")
 
 
 # Janela principal
-root = tk.Tk()
-root.title("Anti-ACO")
+janela = customtkinter.CTk()
+janela.geometry("400x350")
+janela.title("ACO_SQC")
 
 # Define o ícone da janela
 icon_path = "src/ACO.ico"
-root.iconbitmap(icon_path)
+janela.iconbitmap(icon_path)
+
+# Cria a variável para armazenar a mensagem de status
+status_message = StringVar()
 
 # Campo de texto para o número da demanda
-demand_number_label = tk.Label(root, text="Número da demanda:")
-demand_number_label.pack()
+demand_number_label = customtkinter.CTkLabel(janela, text="Número da demanda:")
+demand_number_label.pack(padx=10, pady=10)
 
-demand_number_entry = tk.Entry(root)
+demand_number_entry = customtkinter.CTkEntry(janela)
 demand_number_entry.pack()
 
-# rótulos e botões
-file_label = tk.Label(root, text="Selecione a planilha Excel:")
-file_label.pack()
+# Rótulos e botões
+file_label = customtkinter.CTkLabel(janela, text="Selecione a planilha Excel:")
+file_label.pack(padx=10, pady=10)
 
-file_button = tk.Button(root, text="Escolher arquivo", command=upload_excel)
+file_button = customtkinter.CTkButton(janela, text="Escolher arquivo", command=upload_excel)
 file_button.pack()
 
-image_label = tk.Label(root, text="Selecione a(s) imagem(ns):")
-image_label.pack()
+image_label = customtkinter.CTkLabel(janela, text="Selecione a(s) imagem(ns):")
+image_label.pack(padx=10, pady=10)
 
-image_button = tk.Button(root, text="Escolher imagem(ns)", command=upload_images)
+image_button = customtkinter.CTkButton(janela, text="Escolher imagem(ns)", command=upload_images)
 image_button.pack()
 
-generate_button = tk.Button(root, text="Gerar script(s)", command=gerar_script)
-generate_button.pack()
+generate_button = customtkinter.CTkButton(janela, text="Gerar script(s)", command=gerar_script)
+generate_button.pack(padx=10, pady=10)
 
-#script_label = tk.Label(root, text="Script(s) gerado(os):")
-#script_label.pack()
-
-script_text = tk.Text(root, width=50, height=10)
-script_text.pack()
-
-status_label = tk.Label(root, text="", fg="black")
+status_label = customtkinter.CTkLabel(janela, textvariable=status_message)
 status_label.pack()
 
 # Inicia o loop principal do Tkinter
-root.mainloop()
+janela.mainloop()
