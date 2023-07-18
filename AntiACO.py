@@ -177,26 +177,6 @@ def gerar_script():
     except Exception as error:
         status_message.set(f"Erro: {str(error)}")
 
-        # Gerar o script com base nos dados da planilha e imagem upados
-        script = gerar_script_gerado(lista, demand_number, image_paths)
-
-        # Criar a subpasta com o nome da demanda no diretório "Scripts"
-        demand_folder = os.path.join("Scripts", f"Demanda_{demand_number}")
-        os.makedirs(demand_folder, exist_ok=True)
-
-        # Caminho do arquivo de script dentro da subpasta da demanda
-        script_file_path = os.path.join(demand_folder, f"Script_{demand_number}-card.txt")
-
-        # Salvar o script no arquivo de texto dentro da subpasta da demanda
-        with open(script_file_path, "w") as script_file:
-            script_file.write(script)
-
-        # Abrir o arquivo em um programa que interprete .txt
-        subprocess.Popen(["notepad.exe", script_file_path])
-
-        status_message.set("Script gerado com sucesso.")
-
-
 # Função upload do arquivo Excel
 def upload_excel():
     global excel_path, status_message
