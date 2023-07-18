@@ -26,7 +26,6 @@ O ACO-SQC está em constante evolução, e algumas atualizações futuras planej
 
 | Melhorias                    | Descrição                                                     |
 | ---------------------------- | ------------------------------------------------------------- |
-| Geração de Scripts por Layout | Adicionar suporte para diferentes layouts de cards.         |
 | Criação de Scripts para Popup | Implementar a funcionalidade de gerar scripts para popups.     |
 | Criação de Scripts com Redirecionamento | Adicionar suporte para gerar scripts com redirecionamento via link.     |
 
