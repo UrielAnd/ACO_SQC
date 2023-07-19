@@ -9,10 +9,10 @@ IDT_PRX_PAS,
 CTD_IMG_ACA,
 NOM_RCU_APA_MNU)
  VALUES (
-35427, 
+35429, 
 7, 
-0, 
+319, 
 0, 
 0, 
 @img, 
-'{"Titulo":"teste up titulo1","Valor":{"ItemCard":{"IdTipoRecurso":0,"ProximoPasso":0,"IdentificadorAcao":35427,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"#FFFFFF","CorFim":"#FFFFFF","CorTitulo":"#FFFFFF","CorSubTitulo":"#FFFFFF","CorTextoCta":"#FFFFFF","CorFundoCta":"#FFFFFF","CorBordaCta":"#FFFFFF"},"Complemento":{"Icone":"","SubTitulo":"teste up subtitulo1","TextoCta":"teste up cta1"},"Navegacao":{"Metodo":"","Link":"","TituloPopUp":"","CodMensagemAlerta":"","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')
+'{"Titulo":"teste up titulo3","Valor":{"ItemCard":{"IdTipoRecurso":319,"ProximoPasso":0,"IdentificadorAcao":35429,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"#FFFFFF","CorFim":"#FFFFFF","CorTitulo":"#FFFFFF","CorSubTitulo":"#FFFFFF","CorTextoCta":"#FFFFFF","CorFundoCta":"#FFFFFF","CorBordaCta":"#FFFFFF"},"Complemento":{"Icone":"","SubTitulo":"teste up subtitulo3","TextoCta":"teste up cta3"},"Navegacao":{"Metodo":"Link","Link":"https://bancomercantil.com.br/combinados/Paginas/lar-protegido.aspx","TituloPopUp":"","CodMensagemAlerta":"23172","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')

@@ -13,10 +13,11 @@ class ACOs:
     Subtitulo_Cor = None
     Texto_CTA = None
     Imagem = None
-    
+    Link = None
+    Método_Red= ""
+    Código_Red= ""
 
-
-    def __init__ (self, num, Tipo_de_layout, Titulo, Titulo_Cor, Subtitulo, Subtitulo_Cor, Texto_CTA, CTA_Cor, Imagem, Cor_Fundo_Inicial, Cor_Fundo_Final, CTA_Cor_borda, CTA_Cor_Fundo,) -> None:
+    def __init__(self, num, Tipo_de_layout, Titulo, Titulo_Cor, Subtitulo, Subtitulo_Cor, Texto_CTA, CTA_Cor, Imagem, Cor_Fundo_Inicial, Cor_Fundo_Final, CTA_Cor_borda, CTA_Cor_Fundo, Link) -> None:
         self.num = num
         self.Tipo_de_layout = Tipo_de_layout
         self.Titulo = Titulo
@@ -30,6 +31,12 @@ class ACOs:
         self.Cor_Fundo_Final = Cor_Fundo_Final
         self.CTA_Cor_Fundo = CTA_Cor_Fundo
         self.CTA_Cor_Borda = CTA_Cor_borda
+        self.Link = Link
+        if Link == "":
+               ...
+        else:
+              self.Código_Red = "23172"
+              self.Método_Red = "Link"
 
     def defini_banner(self):
         if self.Tipo_de_layout == "Cartão com imagem à esquerda - Título, subtítulo e CTA à direita":
@@ -59,4 +66,4 @@ class ACOs:
 
     def print(self):
         return print(self.num, self.Tipo_de_layout, self.Banner, self.Titulo, self.Titulo_Cor, self.Subtitulo, self.Subtitulo_Cor,
-                      self.Texto_CTA, self.CTA_Cor, self.Imagem, self.Cor_Fundo_Inicial, self. Cor_Fundo_Final, self.CTA_Cor_Fundo, self.CTA_Cor_Borda)
+                      self.Texto_CTA, self.CTA_Cor, self.Imagem, self.Cor_Fundo_Inicial, self. Cor_Fundo_Final, self.CTA_Cor_Fundo, self.CTA_Cor_Borda, self.Link)

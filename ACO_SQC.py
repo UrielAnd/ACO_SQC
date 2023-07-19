@@ -1,4 +1,5 @@
 from tkinter import filedialog, messagebox, StringVar
+import traceback
 import pandas as pd
 from Excel_file import Excel_file
 from ACOs import ACOs
@@ -17,8 +18,9 @@ status_message = None
 
 
 # Função para gerar o script a partir dos dados da planilha e das imagens selecionadas na janela
+# Função para gerar o script a partir dos dados da planilha e das imagens selecionadas na janela
 def gerar_script_gerado(lista, demanda_num, image_paths):
-    global has_error, status_message
+    global status_message
 
     if not os.path.exists("Scripts"):
         os.mkdir("Scripts")
@@ -41,7 +43,14 @@ def gerar_script_gerado(lista, demanda_num, image_paths):
         if lista[index].Imagem not in [os.path.basename(image_path) for image_path in image_paths]:
             divergent_actions.append(int(lista[index].num))
 
-        with open(image_paths[index], "rb") as img_file:
+        if not image_paths:  # Se a lista de imagens está vazia, atribuir a mesma imagem para todas as ações
+            image_path = ""  # Caminho vazio
+        else:
+            # Encontrar a imagem com o nome correto na lista de imagens selecionadas
+            image_name = os.path.basename(lista[index].Imagem)
+            image_path = next((image_path for image_path in image_paths if image_name == os.path.basename(image_path)), "")
+
+        with open(image_path, "rb") as img_file:
             # Ler a imagem em formato binário e converter para base64
             image_data = img_file.read()
             image_base64 = base64.b64encode(image_data).decode("utf-8")
@@ -74,11 +83,11 @@ NOM_RCU_APA_MNU)
 0, 
 0, 
 @img, 
-'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s"},"Navegacao":{"Metodo":"","Link":"","TituloPopUp":"","CodMensagemAlerta":"","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (
+'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s"},"Navegacao":{"Metodo":"%s","Link":"%s","TituloPopUp":"","CodMensagemAlerta":"%s","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (
                 image_base64, lista[index].num, lista[index].Banner, lista[index].Titulo, lista[index].Banner,
                 lista[index].num, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Final, lista[index].Titulo_Cor,
                 lista[index].Subtitulo_Cor, lista[index].CTA_Cor, lista[index].CTA_Cor_Fundo, lista[index].CTA_Cor_Borda,
-                lista[index].Subtitulo, lista[index].Texto_CTA)
+                lista[index].Subtitulo, lista[index].Texto_CTA, lista[index].Método_Red, lista[index].Link, lista[index].Código_Red)
 
             arquivo.write(script)
 
@@ -115,27 +124,28 @@ def gerar_script():
         file = Excel_file(excel_path)
 
         # Ler a planilha
-        Arq = pd.read_excel(file.caminho, sheet_name="Planilha1")
+        Arq = pd.read_excel(file.caminho)
         Arq = Arq.drop(0, axis=0)
         Arq.reset_index(drop=True, inplace=True)
         Arq = Arq.rename(columns={"Unnamed: 4": "Titulo cor", "Unnamed: 6": "Subtitulo cor", "Unnamed: 8": "CTA cor",
                                   "Unnamed: 10": "Cor fundo inicial",
                                   "Unnamed: 11": "Cor fundo Final", "CTA": "CTA Cor do fundo",
-                                  "CTA.1": "CTA Cor da borda", "Fundo": "Imagem"})
+                                  "CTA.1": "CTA Cor da borda", "Fundo": "Imagem", "Redirecionamento externo": "Link" })
         Arq.fillna('', inplace=True)
 
+        print(Arq)
         lista = []
 
         for index in range(len(Arq)):
             if pd.isna(Arq["ACO"][index]):
                 continue  # Ignorar o cabeçalho e linhas em branco
             else:
-                ACO = ACOs(Arq["ACO"][index], Arq["Tipo de layout"][index], Arq["Titulo"][index],
+                ACO = ACOs(Arq["ACO"][index], Arq["Tipo de Layout"][index], Arq["Titulo"][index],
                            Arq["Titulo cor"][index], Arq["Subtitulo"][index], Arq["Subtitulo cor"][index],
                            Arq["Texto CTA"][index],
                            Arq["CTA cor"][index], Arq["Imagem"][index], Arq["Cor fundo inicial"][index],
                            Arq["Cor fundo Final"][index], Arq["CTA Cor do fundo"][index],
-                           Arq["CTA Cor da borda"][index])
+                           Arq["CTA Cor da borda"][index], Arq["Link"][index])
                 lista.append(ACO)
 
         # Verificar se há nomes de imagem divergentes
@@ -156,9 +166,9 @@ def gerar_script():
             status_message.set("Nenhuma ação comercial encontrada na planilha.")
             return
 
-        if num_acos > len(image_paths):
-            status_message.set("Erro: O número de imagens é menor que o número de ações comerciais.")
-            return
+        #if num_acos > len(image_paths):
+            #status_message.set("Erro: O número de imagens é menor que o número de ações comerciais.")
+            #return
 
         # Associar cada imagem à ação correspondente na planilha
         for i in range(num_acos):
@@ -175,7 +185,8 @@ def gerar_script():
         subprocess.Popen(["explorer", demand_folder_path])
 
     except Exception as error:
-        status_message.set(f"Erro: {str(error)}")
+        #status_message.set(f"Erro: {str(error)}")
+        traceback.print_exc()
 
 # Função upload do arquivo Excel
 def upload_excel():
