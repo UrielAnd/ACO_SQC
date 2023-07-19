@@ -20,6 +20,13 @@ O programa foi atualizado para fornecer as seguintes funcionalidades:
 
 5. **Criação Automática de Pasta para Cada Demanda**: Ao gerar os scripts, o ACO-SQC cria automaticamente uma pasta com o número da demanda e inclui nela os scripts gerados. Os arquivos de script são nomeados de forma padronizada e com seu numero de ação para facilitar a identificação.
 
+Apresentação do ACO-SQC
+Assista a uma breve apresentação do ACO-SQC para entender como utilizar o programa e suas principais funcionalidades.
+
+Assista ao vídeo
+
+Neste vídeo, você terá uma visão geral do ACO-SQC e aprenderá como utilizar as principais funcionalidades do programa.
+
 ## Atualizações Futuras
 
 O ACO-SQC está em constante evolução, e algumas atualizações futuras planejadas incluem:
