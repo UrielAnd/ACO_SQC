@@ -24,7 +24,7 @@ O programa foi atualizado para fornecer as seguintes funcionalidades:
 
 Assista a uma breve apresentação do ACO-SQC para entender como utilizar o programa e suas principais funcionalidades.
 
-[![Assista ao vídeo](https://img.shields.io/badge/Assista%20ao%20v%C3%ADdeo-ACO--SQC%20Presentation-red?style=for-the-badge&logo=youtube)](https://drive.google.com/drive/u/0/folders/1YUcHqGUGfik-Db-RriX6n2Mknq9UN-Bs))
+[![Assista ao vídeo](https://img.shields.io/badge/Assista%20ao%20v%C3%ADdeo-ACO--SQC%20Presentation-red?style=for-the-badge&logo=youtube)](https://drive.google.com/file/d/1i7iUSBXucPpfW0DzPlcGkgknCEoA1FJl/view?usp=drive_link)
 
 Neste vídeo, você terá uma visão geral do ACO-SQC e aprenderá como utilizar as principais funcionalidades do programa.
 
