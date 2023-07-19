@@ -50,7 +50,7 @@ Para instalar o ACO-SQC e contribuir com o projeto, siga as instruções abaixo:
 
 Para instalar o ACO-SQC e usufruir de suas funcionalidades, clique no botão abaixo para baixar o instalador da aplicação:
 
-[![Download](https://img.shields.io/badge/Download%20via%20Google%20Drive-Install%20ACO--SQC-blue?style=for-the-badge&logo=googledrive)](https://drive.google.com/drive/u/0/folders/1YUcHqGUGfik-Db-RriX6n2Mknq9UN-Bs)
+[![Download](https://img.shields.io/badge/Download%20via%20Google%20Drive-Install%20ACO--SQC-blue?style=for-the-badge&logo=googledrive)](https://drive.google.com/drive/folders/1ELIAvDozFhGlrS1qe0SLCNEeCHiGc-MI?usp=sharing)
 
 1. Após baixar o instalador, execute-o em sua máquina.
 2. Siga as instruções de instalação fornecidas pelo instalador.
