@@ -1,5 +1,4 @@
 from tkinter import filedialog, messagebox, StringVar
-import traceback
 import pandas as pd
 from Excel_file import Excel_file
 from ACOs import ACOs
@@ -185,8 +184,8 @@ def gerar_script():
         subprocess.Popen(["explorer", demand_folder_path])
 
     except Exception as error:
-        #status_message.set(f"Erro: {str(error)}")
-        traceback.print_exc()
+        status_message.set(f"Erro: {str(error)}")
+        #traceback.print_exc()
 
 # Função upload do arquivo Excel
 def upload_excel():
