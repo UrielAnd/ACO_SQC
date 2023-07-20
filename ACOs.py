@@ -49,7 +49,7 @@ class ACOs:
               self.Código_Red = "23172"
               self.Método_Red = "Link"
 
-        if Tamanho_Titulo == "":
+        if Tamanho_Titulo == None:
                ...
         elif Tamanho_Titulo.upper() == "PEQUENO":
                 self.Tamanho_Titulo = 1
@@ -58,7 +58,7 @@ class ACOs:
         elif Tamanho_Titulo.upper() == "GRANDE":
                 self.Tamanho_Titulo = 3
 
-        if Tamanho_Subtitulo == "":
+        if Tamanho_Subtitulo == None:
                ...
         elif Tamanho_Subtitulo.upper() == "PEQUENO":
                 self.Tamanho_Subtitulo = 1
