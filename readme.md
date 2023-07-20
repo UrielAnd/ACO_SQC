@@ -34,8 +34,6 @@ O ACO-SQC está em constante evolução, e algumas atualizações futuras planej
 
 | Melhorias                    | Descrição                                                     |
 | ---------------------------- | ------------------------------------------------------------- |
-| Tamanho do título coerente | Deixar o tamanho do título coerente com o usado no codigo SQL     |
-| Planilha, imagens e scripts na pasta da demanda | Organizar as planilhas e imagens junto as pastas das demandas geradas    |
 | Tela preview | Gerar uma tela com o preview do script da ação gerada    |
 
 ## Instalação (Contribuição)

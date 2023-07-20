@@ -1,4 +1,6 @@
 from tkinter import filedialog, messagebox, StringVar
+import traceback
+#import traceback
 import pandas as pd
 from Excel_file import Excel_file
 from ACOs import ACOs
@@ -6,7 +8,7 @@ import os
 import base64
 import customtkinter
 import subprocess
-
+import shutil
 
 # Variáveis globais para armazenar o caminho do arquivo Excel e da imagem
 excel_path = ""
@@ -25,6 +27,10 @@ def gerar_script_gerado(lista, demanda_num, image_paths, Tamnaho_Coll):
 
     demand_folder = os.path.join("Scripts", f"Demanda_{demanda_num}")
     os.makedirs(demand_folder, exist_ok=True)
+
+    shutil.copy(excel_path, demand_folder)
+    for index in image_paths:
+        shutil.copy(index, demand_folder)
 
     divergent_actions = []  # Lista para armazenar ações com nomes de imagens divergentes
     updated_actions = []  # Lista para armazenar ações que foram atualizadas
@@ -46,7 +52,8 @@ def gerar_script_gerado(lista, demanda_num, image_paths, Tamnaho_Coll):
         else:
             # Encontrar a imagem com o nome correto na lista de imagens selecionadas
             image_name = os.path.basename(lista[index].Imagem)
-            image_path = next((image_path for image_path in image_paths if image_name == os.path.basename(image_path)), "")
+            image_path = next((image_path for image_path in image_paths if image_name == os.path.basename(image_path)),
+                              "")
 
         with open(image_path, "rb") as img_file:
             # Ler a imagem em formato binário e converter para base64
@@ -83,10 +90,13 @@ VALUES (
 0, 
 @img, 
 '{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s"},"Navegacao":{"Metodo":"%s","Link":"%s","TituloPopUp":"","CodMensagemAlerta":"%s","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (
-                image_base64, lista[index].num, lista[index].Banner, lista[index].Titulo, lista[index].Banner,
-                lista[index].num, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Final, lista[index].Titulo_Cor,
-                lista[index].Subtitulo_Cor, lista[index].CTA_Cor, lista[index].CTA_Cor_Fundo, lista[index].CTA_Cor_Borda,
-                lista[index].Subtitulo, lista[index].Texto_CTA, lista[index].Método_Red, lista[index].Link, lista[index].Código_Red)
+                    image_base64, lista[index].num, lista[index].Banner, lista[index].Titulo, lista[index].Banner,
+                    lista[index].num, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Final,
+                    lista[index].Titulo_Cor,
+                    lista[index].Subtitulo_Cor, lista[index].CTA_Cor, lista[index].CTA_Cor_Fundo,
+                    lista[index].CTA_Cor_Borda,
+                    lista[index].Subtitulo, lista[index].Texto_CTA, lista[index].Método_Red, lista[index].Link,
+                    lista[index].Código_Red)
                 arquivo.write(script)
 
         elif Tamnaho_Coll == 15:
@@ -110,11 +120,15 @@ NOM_RCU_ACA_CMC )
 0, 
 @img, 
 getdate(),
-'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png","CorTexto":"%s"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s","TamanhoTitulo":%s,"TamanhoSubtitulo":"%s"},"Navegacao":{"Metodo":"%s","Link":"%s","TituloPopUp":"","CodMensagemAlerta":"%s","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (
-                image_base64, lista[index].num, lista[index].Banner, lista[index].Titulo, lista[index].Banner, lista[index].num, 
-                lista[index].Cor_botao_fechar, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Inicial, lista[index].Titulo_Cor, lista[index].Subtitulo_Cor,
-                lista[index].CTA_Cor, lista[index].CTA_Cor_Borda, lista[index].CTA_Cor_Borda, lista[index].Subtitulo, lista[index].Texto_CTA,
-                lista[index].Tamanho_Titulo, lista[index].Tamanho_Subtitulo, lista[index].Método_Red, lista[index].Link, lista[index].Código_Red)
+'{"Titulo":"%s","Valor":{"ItemCard":{"IdTipoRecurso":%d,"ProximoPasso":0,"IdentificadorAcao":%d,"NumeroSequencialPessoa":0,"CodigoProduto":0,"IdentificadorMensagem":"","BotaoLimpar":{"Texto":"Apagar","Icone":"aco_close_icon.png","CorTexto":"%s"},"ImagemFundo":{"Imagem":null,"CorInicio":"%s","CorFim":"%s","CorTitulo":"%s","CorSubTitulo":"%s","CorTextoCta":"%s","CorFundoCta":"%s","CorBordaCta":"%s"},"Complemento":{"Icone":"","SubTitulo":"%s","TextoCta":"%s","TamanhoTitulo":%d,"TamanhoSubtitulo":%d},"Navegacao":{"Metodo":"%s","Link":"%s","TituloPopUp":"","CodMensagemAlerta":"%s","MensagemAlerta":"","Payload":{"IdtCat":0,"CodPdt":0,"NumDnd":0,"NumCta":0,"NumPes":0,"ExibirAlertaErro":true}}}},"Visivel":true}')""" % (
+                    image_base64, lista[index].num, lista[index].Banner, lista[index].Titulo, lista[index].Banner,
+                    lista[index].num,
+                    lista[index].Cor_Botao_Fechar, lista[index].Cor_Fundo_Inicial, lista[index].Cor_Fundo_Inicial,
+                    lista[index].Titulo_Cor, lista[index].Subtitulo_Cor,
+                    lista[index].CTA_Cor, lista[index].CTA_Cor_Borda, lista[index].CTA_Cor_Borda,
+                    lista[index].Subtitulo, lista[index].Texto_CTA,
+                    lista[index].Tamanho_Titulo, lista[index].Tamanho_Subtitulo, lista[index].Método_Red,
+                    lista[index].Link, lista[index].Código_Red)
 
                 arquivo.write(script)
 
@@ -156,43 +170,44 @@ def gerar_script():
         Arq = Arq.drop(0, axis=0)
         Arq.reset_index(drop=True, inplace=True)
         Arq.fillna('', inplace=True)
-        #print(Arq.shape[1])
+        # print(Arq.shape[1])
         Tamnaho_Coll = Arq.shape[1]
         if Tamnaho_Coll == 14:
-            Arq = Arq.rename(columns={"Unnamed: 3": "Titulo cor", "Unnamed: 5": "Subtitulo cor", "Unnamed: 7": "CTA cor",
-                                    "Unnamed: 9": "Cor fundo inicial",
-                                    "Unnamed: 10": "Cor fundo Final", "CTA": "CTA Cor do fundo",
-                                    "CTA.1": "CTA Cor da borda", "Fundo": "Imagem", "Redirecionamento externo": "Link" })
+            Arq = Arq.rename(
+                columns={"Unnamed: 3": "Titulo cor", "Unnamed: 5": "Subtitulo cor", "Unnamed: 7": "CTA cor",
+                         "Unnamed: 9": "Cor fundo inicial",
+                         "Unnamed: 10": "Cor fundo Final", "CTA": "CTA Cor do fundo",
+                         "CTA.1": "CTA Cor da borda", "Fundo": "Imagem", "Redirecionamento externo": "Link"})
             for index in range(len(Arq)):
                 if pd.isna(Arq["ACO"][index]):
                     continue  # Ignorar o cabeçalho e linhas em branco
                 else:
                     ACO = ACOs(Arq["ACO"][index], Arq["Tipo de Layout"][index], Arq["Titulo"][index],
-                            Arq["Titulo cor"][index], Arq["Subtitulo"][index], Arq["Subtitulo cor"][index],
-                            Arq["Texto CTA"][index],
-                            Arq["CTA cor"][index], Arq["Imagem"][index], Arq["Cor fundo inicial"][index],
-                            Arq["Cor fundo Final"][index], Arq["CTA Cor do fundo"][index],
-                            Arq["CTA Cor da borda"][index], Arq["Link"][index], None, None, None)
+                               Arq["Titulo cor"][index], Arq["Subtitulo"][index], Arq["Subtitulo cor"][index],
+                               Arq["Texto CTA"][index],
+                               Arq["CTA cor"][index], Arq["Imagem"][index], Arq["Cor fundo inicial"][index],
+                               Arq["Cor fundo Final"][index], Arq["CTA Cor do fundo"][index],
+                               Arq["CTA Cor da borda"][index], Arq["Link"][index], None, None, None)
                     lista.append(ACO)
 
         elif Tamnaho_Coll == 15:
-            Arq = Arq.rename(columns={"Unnamed: 3": "Titulo tamanho", "Unnamed: 4": "Titulo cor", "Unnamed: 6": "Subtitulo tamanho",
-                          "Unnamed: 7": "Subtitulo cor",
-                          "Unnamed: 9": "CTA cor", "Unnamed: 11": "Cor fundo",
-                          "Fundo": "Imagem", "Redirecionamento externo": "Link"})
+            Arq = Arq.rename(
+                columns={"Unnamed: 3": "Titulo tamanho", "Unnamed: 4": "Titulo cor", "Unnamed: 6": "Subtitulo tamanho",
+                         "Unnamed: 7": "Subtitulo cor",
+                         "Unnamed: 9": "CTA cor", "Unnamed: 11": "Cor fundo",
+                         "Fundo": "Imagem", "Redirecionamento externo": "Link"})
             for index in range(len(Arq)):
                 if pd.isna(Arq["ACO"][index]):
                     continue  # Ignorar o cabeçalho e linhas em branco
                 else:
                     ACO = ACOs(Arq["ACO"][index], Arq["Tipo de Layout"][index], Arq["Titulo"][index],
-                            Arq["Titulo cor"][index], Arq["Subtitulo"][index], Arq["Subtitulo cor"][index],
-                            Arq["Texto CTA"][index],
-                            Arq["CTA cor"][index], Arq["Imagem"][index], Arq["Cor fundo"][index],
-                            None, Arq["Fundo CTA"][index],
-                            None, Arq["Link"][index], Arq["Titulo tamanho"][index],
-                            Arq["Subtitulo tamanho"][index], Arq["Botão fechar"][index])
+                               Arq["Titulo cor"][index], Arq["Subtitulo"][index], Arq["Subtitulo cor"][index],
+                               Arq["Texto CTA"][index],
+                               Arq["CTA cor"][index], Arq["Imagem"][index], Arq["Cor fundo"][index],
+                               None, Arq["Fundo CTA"][index],
+                               None, Arq["Link"][index], Arq["Titulo tamanho"][index],
+                               Arq["Subtitulo tamanho"][index], Arq["Botão fechar"][index])
                     lista.append(ACO)
-            
 
         print(Arq)
 
@@ -204,7 +219,8 @@ def gerar_script():
 
         if divergent_actions:
             divergent_actions = [int(action) for action in divergent_actions]
-            status_message.set(f"Erro: Ações com nomes de imagens divergentes: {', '.join(map(str, divergent_actions))}")
+            status_message.set(
+                f"Erro: Ações com nomes de imagens divergentes: {', '.join(map(str, divergent_actions))}")
             return
 
         # Número de ações comerciais encontradas na planilha
@@ -214,9 +230,9 @@ def gerar_script():
             status_message.set("Nenhuma ação comercial encontrada na planilha.")
             return
 
-        #if num_acos > len(image_paths):
-            #status_message.set("Erro: O número de imagens é menor que o número de ações comerciais.")
-            #return
+        # if num_acos > len(image_paths):
+        # status_message.set("Erro: O número de imagens é menor que o número de ações comerciais.")
+        # return
 
         # Associar cada imagem à ação correspondente na planilha
         for i in range(num_acos):
@@ -234,7 +250,8 @@ def gerar_script():
 
     except Exception as error:
         status_message.set(f"Erro: {str(error)}")
-        #traceback.print_exc()
+        traceback.print_exc()
+
 
 # Função upload do arquivo Excel
 def upload_excel():
