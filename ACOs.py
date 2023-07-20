@@ -17,7 +17,13 @@ class ACOs:
     Método_Red= ""
     Código_Red= ""
 
-    def __init__(self, num, Tipo_de_layout, Titulo, Titulo_Cor, Subtitulo, Subtitulo_Cor, Texto_CTA, CTA_Cor, Imagem, Cor_Fundo_Inicial, Cor_Fundo_Final, CTA_Cor_borda, CTA_Cor_Fundo, Link) -> None:
+    #Especifico para popups
+
+    Tamanho_Titulo = None
+    Tamanho_Subtitulo = None
+    Cor_Botao_Fechar = None 
+
+    def __init__(self, num, Tipo_de_layout, Titulo, Titulo_Cor, Subtitulo, Subtitulo_Cor, Texto_CTA, CTA_Cor, Imagem, Cor_Fundo_Inicial, Cor_Fundo_Final, CTA_Cor_borda, CTA_Cor_Fundo, Link, Tamanho_titulo, Tamanho_subtitulo, Cor_botao_fechar) -> None:
         self.num = num
         self.Tipo_de_layout = Tipo_de_layout
         self.Titulo = Titulo
@@ -32,6 +38,10 @@ class ACOs:
         self.CTA_Cor_Fundo = CTA_Cor_Fundo
         self.CTA_Cor_Borda = CTA_Cor_borda
         self.Link = Link
+        self.Tamanho_titulo = Tamanho_titulo
+        self.Tamanho_subtitulo = Tamanho_subtitulo
+        self.Cor_botao_fechar = Cor_botao_fechar
+
         if Link == "":
                ...
         else:
@@ -55,6 +65,12 @@ class ACOs:
                 self.Banner = 324
         elif self.Tipo_de_layout == "Cartão com imagem à direita - Título e subtítulo à esquerda":
                 self.Banner = 275
+        elif self.Tipo_de_layout == "Popup com imagem superior - Titulo, Subtítulo, Texto CTA (Botão)":
+                self.Banner = 333
+        elif self.Tipo_de_layout == "Popup com imagem inferior - Titulo, Subtítulo, Texto CTA (Botão)":
+                self.Banner = 334
+        elif self.Tipo_de_layout == "Popup com imagem livre (Textos já fixos na imagem))":
+                self.Banner = 335
         #elif lista[index].Tipo_de_layout == "Cartão sem imagem - Título, subtítulo e CTA":
         #        Layout_Value = 303
         #elif lista[index].Tipo_de_layout == "Cartão sem imagem - Título e CTA":
