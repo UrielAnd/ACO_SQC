@@ -1,8 +1,5 @@
-from tkinter import filedialog, messagebox, StringVar
-import traceback
-#import traceback
+from tkinter import filedialog, StringVar
 import pandas as pd
-from Excel_file import Excel_file
 from ACOs import ACOs
 import os
 import base64
@@ -61,14 +58,10 @@ def gerar_script_gerado(lista, demanda_num, image_paths, Tamnaho_Coll):
             image_base64 = base64.b64encode(image_data).decode("utf-8")
 
         lista[index].defini_banner()
-        lista[index].print()
+        #lista[index].print()
 
         script_file_name = f"Script_{int(lista[index].num)}-card.txt"
         script_file_path = os.path.join(demand_folder, script_file_name)
-
-        # Verificar se o arquivo de script já existe
-        if os.path.exists(script_file_path):
-            updated_actions.append(int(lista[index].num))
 
         if Tamnaho_Coll == 14:
             with open(script_file_path, "w") as arquivo:
@@ -162,11 +155,11 @@ def gerar_script():
         demand_number = int(demand_number_entry.get())
 
         # Criar instância da classe Excel_file com o caminho do arquivo Excel
-        file = Excel_file(excel_path)
+        file = excel_path
         lista = []
 
         # Ler a planilha
-        Arq = pd.read_excel(file.caminho)
+        Arq = pd.read_excel(file)
         Arq = Arq.drop(0, axis=0)
         Arq.reset_index(drop=True, inplace=True)
         Arq.fillna('', inplace=True)
@@ -209,7 +202,7 @@ def gerar_script():
                                Arq["Subtitulo tamanho"][index], Arq["Botão fechar"][index])
                     lista.append(ACO)
 
-        print(Arq)
+        #print(Arq)
 
         # Verificar se há nomes de imagem divergentes
         divergent_actions = []
@@ -230,10 +223,6 @@ def gerar_script():
             status_message.set("Nenhuma ação comercial encontrada na planilha.")
             return
 
-        # if num_acos > len(image_paths):
-        # status_message.set("Erro: O número de imagens é menor que o número de ações comerciais.")
-        # return
-
         # Associar cada imagem à ação correspondente na planilha
         for i in range(num_acos):
             ACO = lista[i]
@@ -250,7 +239,7 @@ def gerar_script():
 
     except Exception as error:
         status_message.set(f"Erro: {str(error)}")
-        traceback.print_exc()
+        #traceback.print_exc()
 
 
 # Função upload do arquivo Excel
